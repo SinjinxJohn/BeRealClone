@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "520989817869",
+    "project_id": "berealclone-184d2",
+    "storage_bucket": "berealclone-184d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520989817869:android:e19ba308b1642ae522a944",
+        "android_client_info": {
+          "package_name": "com.example.bereal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520989817869-oq13olevn0bp55qo3lrc0o5rcqa787k0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bereal",
+            "certificate_hash": "7a8e82bc5b60d3a57ac420e6b30dd87c28623cc8"
+          }
+        },
+        {
+          "client_id": "520989817869-0op2bd8djj9gskt5q48g7p9ovvagb74j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe3K5VzYo70965kMuGLtRQrC4LHvzMXP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520989817869-0op2bd8djj9gskt5q48g7p9ovvagb74j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
