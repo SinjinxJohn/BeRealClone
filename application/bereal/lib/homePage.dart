@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bereal/discovery.dart';
@@ -233,11 +234,34 @@ class _HomePageState extends State<HomePage> {
                 }
                 Map<String, dynamic> datatosave = {
                   'name': 'sins',
-                  'rearimage': imageUrl
+                  'rearimage': imageUrl,
+                  'uploadTime': DateTime.now(),
+                  'expiryTime': DateTime.now().add(Duration(hours: 1))
                 };
                 FirebaseFirestore.instance.collection("images").add(datatosave);
+                void deleteExpiredDocuments() async {
+                  DateTime currentTime = DateTime.now();
+
+                  final querySnapshot = await FirebaseFirestore.instance
+                      .collection("images")
+                      .where('expirationTime', isLessThan: currentTime)
+                      .get();
+
+                  querySnapshot.docs.forEach((doc) {
+                    doc.reference.delete();
+                  });
+                }
+
+                void startTimerToDeleteExpiredDocuments() {
+                  Timer.periodic(Duration(hours: 1), (timer) {
+                    deleteExpiredDocuments();
+                  });
+                }
+
+// Start the timer when needed
+                startTimerToDeleteExpiredDocuments();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.circle_outlined,
                 color: Colors.white,
                 size: 90,
