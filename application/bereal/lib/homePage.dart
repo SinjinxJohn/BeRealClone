@@ -20,20 +20,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   String imageUrl = '';
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('images');
   late Stream<QuerySnapshot> imageItems;
+  
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     imageItems = collectionReference.snapshots();
+    startTimerToDeleteExpiredDocuments();
   }
+  void startTimerToDeleteExpiredDocuments() {
+    Timer.periodic(Duration(hours: 1), (timer) {
+      deleteExpiredDocuments();
+    });
+  }
+
+  void deleteExpiredDocuments() async {
+    DateTime currentTime = DateTime.now();
+
+    final querySnapshot = await collectionReference
+        .where('expiryTime', isLessThan: currentTime)
+        .get();
+
+    querySnapshot.docs.forEach((doc) {
+      doc.reference.delete();
+    });
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+    final height=MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     collectionReference.get();
     collectionReference.snapshots();
     return Scaffold(
@@ -48,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
                 Navigator.push(context,
@@ -57,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                   child: Icon(Icons.person),
                   // height: 3,
-                  width: 35,
+                  width: width*0.094,
                   decoration: BoxDecoration(
                     color: Colors.orange,
                     borderRadius: BorderRadius.circular(20),
@@ -80,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     textStyle: TextStyle(color: Colors.white)),
               ),
               SizedBox(
-                width: 15,
+                width: width*0.07,
               ),
               InkWell(
                 onTap: () {
@@ -96,7 +119,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(
-            height: 25,
+            height: height*0.04,
           ),
 
           StreamBuilder<QuerySnapshot>(
@@ -110,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                   List<QueryDocumentSnapshot> listQueryDocsSnapshot2 =
                       _querySnapshot.docs;
                   return SizedBox(
-                    height: 150,
+                    height: height*0.2,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: listQueryDocsSnapshot2.length,
@@ -132,8 +155,8 @@ class _HomePageState extends State<HomePage> {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  height: 150,
-                                  width: 120,
+                                  height: height*0.19,
+                                  width: width*0.35,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(9),
                                       color: Colors.white),
@@ -175,11 +198,11 @@ class _HomePageState extends State<HomePage> {
                 return Center(child: CircularProgressIndicator());
               })),
           SizedBox(
-            height: 150,
+            height: height*0.17,
           ),
           Center(
             child: SizedBox(
-              width: 300,
+              width: width*0.78,
               child: Text(
                 "Your friends haven't posted their BeReal yet. Add even",
                 style: GoogleFonts.lato(fontSize: 25, color: Colors.white70),
@@ -190,7 +213,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(left: 110.0),
             child: Center(
               child: SizedBox(
-                width: 300,
+                width: width*0.78,
                 child: Text(
                   "more friends",
                   style: GoogleFonts.lato(fontSize: 25, color: Colors.white70),
@@ -239,27 +262,7 @@ class _HomePageState extends State<HomePage> {
                   'expiryTime': DateTime.now().add(Duration(hours: 1))
                 };
                 FirebaseFirestore.instance.collection("images").add(datatosave);
-                void deleteExpiredDocuments() async {
-                  DateTime currentTime = DateTime.now();
-
-                  final querySnapshot = await FirebaseFirestore.instance
-                      .collection("images")
-                      .where('expirationTime', isLessThan: currentTime)
-                      .get();
-
-                  querySnapshot.docs.forEach((doc) {
-                    doc.reference.delete();
-                  });
-                }
-
-                void startTimerToDeleteExpiredDocuments() {
-                  Timer.periodic(Duration(hours: 1), (timer) {
-                    deleteExpiredDocuments();
-                  });
-                }
-
-// Start the timer when needed
-                startTimerToDeleteExpiredDocuments();
+               
               },
               child: const Icon(
                 Icons.circle_outlined,
@@ -286,7 +289,7 @@ class _HomePageState extends State<HomePage> {
           // ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding:  EdgeInsets.only(top: height*0.01),
               child: Text(
                 "Post a Late BeReal.",
                 style: GoogleFonts.lato(

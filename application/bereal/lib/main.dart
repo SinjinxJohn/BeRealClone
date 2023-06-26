@@ -38,7 +38,15 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: LoginPage()
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context,snapshot){
+            if(snapshot.hasData){
+              return const HomePage();
+            }else{
+              return const LoginPage();
+            }
+          })
         // StreamBuilder<User?>(
         //     stream: FirebaseAuth.instance.authStateChanges(),
         //     builder: (context, snapshot) {

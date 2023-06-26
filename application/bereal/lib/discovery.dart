@@ -16,6 +16,7 @@ class Discovery extends StatefulWidget {
 }
 
 class _DiscoveryState extends State<Discovery> {
+  
   CollectionReference _collectionReference2 =
       FirebaseFirestore.instance.collection('discovery');
 
@@ -30,6 +31,8 @@ class _DiscoveryState extends State<Discovery> {
 
   @override
   Widget build(BuildContext context) {
+     final height=MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     _collectionReference2.get();
     _collectionReference2.snapshots();
     return Scaffold(
@@ -55,7 +58,7 @@ class _DiscoveryState extends State<Discovery> {
                 child: Container(
                     child: Icon(Icons.person),
                     // height: 3,
-                    width: 35,
+                    width: width*0.094,
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(20),
@@ -67,7 +70,7 @@ class _DiscoveryState extends State<Discovery> {
         body: Column(
           children: [
             SizedBox(
-              height: 25,
+              height: height*0.02,
             ),
             StreamBuilder<QuerySnapshot>(
                 stream: collectionItem,
@@ -80,7 +83,7 @@ class _DiscoveryState extends State<Discovery> {
                     List<QueryDocumentSnapshot> listQueryDocsSnapshot =
                         querySnapshot.docs;
                     return SizedBox(
-                      height: 800,
+                      height: height*0.98,
                       child: ListView.builder(
                           itemCount: listQueryDocsSnapshot.length,
                           itemBuilder: (context, index) {
@@ -105,15 +108,15 @@ class _DiscoveryState extends State<Discovery> {
                                             fit: BoxFit.cover,
                                           ),
                                         ),
-                                        height: 35,
-                                        width: 35,
+                                        height: height*0.043,
+                                        width: width*0.09,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 8,
+                                       SizedBox(
+                                        width: width*0.018,
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -127,8 +130,8 @@ class _DiscoveryState extends State<Discovery> {
                                                 textStyle: TextStyle(
                                                     color: Colors.white)),
                                           ),
-                                          const SizedBox(
-                                            height: 3,
+                                          SizedBox(
+                                            height: height*0.001,
                                           ),
                                           Text(
                                             document['late'],
@@ -157,8 +160,8 @@ class _DiscoveryState extends State<Discovery> {
                                 Center(
                                   child: Stack(children: [
                                     Container(
-                                      height: 500,
-                                      width: 370,
+                                      height: height*0.5,
+                                      width: width*0.96,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(40),
                                       ),
@@ -171,11 +174,11 @@ class _DiscoveryState extends State<Discovery> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, top: 10),
+                                      padding: EdgeInsets.only(
+                                          left: width*0.03, top: height*0.01),
                                       child: Container(
-                                        height: 150,
-                                        width: 100,
+                                        height: height*0.19,
+                                        width: width*0.3,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(20),

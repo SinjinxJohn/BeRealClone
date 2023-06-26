@@ -25,7 +25,7 @@ class _ProfileState extends State<Profile> {
           children: [
             InkWell(
               onTap: () async {
-                await GoogleSignIn().signOut();
+                // await GoogleSignIn().signOut();
                 FirebaseAuth.instance.signOut();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
